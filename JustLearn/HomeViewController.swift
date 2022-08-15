@@ -100,6 +100,7 @@ private extension HomeViewController {
         guard let dataSource = dataSource else { return }
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([contact])
+        items.removeAll { $0.title == contact.title }
         dataSource.apply(snapshot, animatingDifferences: animate)
     }
 }
@@ -127,7 +128,6 @@ extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteButton = UIContextualAction(style: .destructive, title: "", handler: { [weak self] (_: UIContextualAction, _: UIView, success: (Bool) -> Void) in
             guard let self = self else { return success(true) }
-//            self.items.remove(at: indexPath.row)
             self.remove(contact: self.items[indexPath.row])
             success(true)
         })
